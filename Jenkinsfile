@@ -12,32 +12,32 @@ pipeline {
                '''
        }
      }
-      stage ('Creating build tag') {
+ /*     stage ('Creating build tag') {
         steps {
-            createTag nexusInstanceId: 'nx3', tagAttributesJson: '{"createdBy" : "Moose"}', tagName: 'build-123'
-            createTag nexusInstanceId: 'nx3', tagAttributesJson: '{"createdBy" : "Moose"}', tagName: 'build-125'
+           // createTag nexusInstanceId: 'nx3', tagAttributesJson: '{"createdBy" : "Moose"}', tagName: 'build-123'
+           // createTag nexusInstanceId: 'nx3', tagAttributesJson: '{"createdBy" : "Moose"}', tagName: 'build-125'
         }
-    }
+    } */
     stage ('Publishing') {
-      parallel {
-        stage ('Publish to Build Tag 125') {
+//      parallel {
+        stage ('Publish to Maven Releases') {
           steps {
-              nexusPublisher nexusInstanceId: 'nx3', nexusRepositoryId: 'maven-releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'target/spring-petclinic-2.0.0.jar']], mavenCoordinate: [artifactId: 'fancyWidget', groupId: 'com.mycompany', packaging: 'jar', version: '2.0.0']]], tagName: 'build-125'
+              nexusPublisher nexusInstanceId: 'nx3', nexusRepositoryId: 'maven-releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'target/spring-petclinic-2.0.0.jar']], mavenCoordinate: [artifactId: 'fancyWidget', groupId: 'com.mycompany', packaging: 'jar', version: '2.0.0']]]'
           }     
         }
-        stage ('Publish to Build Tag 123') {
+ /*       stage ('Publish to Build Tag 123') {
           steps {
-           nexusPublisher nexusInstanceId: 'nx3', nexusRepositoryId: 'maven-releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'target/spring-petclinic-2.0.0.jar']], mavenCoordinate: [artifactId: 'fancyWidget', groupId: 'com.mycompany', packaging: 'jar', version: '1.0.0']]], tagName: 'build-123'
+           nexusPublisher nexusInstanceId: 'nx3', nexusRepositoryId: 'maven-releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'target/spring-petclinic-2.0.0.jar']], mavenCoordinate: [artifactId: 'fancyWidget', groupId: 'com.mycompany', packaging: 'jar', version: '1.0.0']]]'
           }
         }
         stage ('Publish to Build Tag 120') {
           steps {
-           nexusPublisher nexusInstanceId: 'nx3', nexusRepositoryId: 'maven-releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'target/spring-petclinic-2.0.0.jar']], mavenCoordinate: [artifactId: 'fancyWidget', groupId: 'com.mycompany', packaging: 'jar', version: '0.0.1']]], tagName: 'build-120'
+           nexusPublisher nexusInstanceId: 'nx3', nexusRepositoryId: 'maven-releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'target/spring-petclinic-2.0.0.jar']], mavenCoordinate: [artifactId: 'fancyWidget', groupId: 'com.mycompany', packaging: 'jar', version: '0.0.1']]]'
           }
-        } 
-      }
+       } 
+      } */
     }
-    stage ('Next Steps') {
+/*    stage ('Next Steps') {
       steps {
           input "Deploy to Prod?"
           moveComponents destination: 'maven-test', nexusInstanceId: 'nx3', tagName: 'build-123'
@@ -121,7 +121,7 @@ pipeline {
             curl --verbose -u admin:admin123 -X DELETE "http://nexus:8081/service/rest/v1/tags/build-123" -H "accept: application/json"
         '''
       }
-    }
+    } */
   }
   tools {
     maven 'M3'
